@@ -1,0 +1,133 @@
+@import '@fontsource/cormorant-garamond/latin-500.css';
+@import '@fontsource/cormorant-garamond/latin-600.css';
+@import '@fontsource/cormorant-garamond/latin-500-italic.css';
+@import '@fontsource-variable/inter/index.css';
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+/*
+ * Paleta oficial do Instituto da Mente (manual de cores do cliente).
+ * "laranja-escuro" (textos sobre fundo claro) e "laranja-claro" (textos sobre o marrom)
+ * são variações para atingir contraste AA; o laranja original fica para botões e destaques.
+ */
+@theme {
+    --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+    --font-serif: 'Cormorant Garamond', ui-serif, Georgia, serif;
+
+    --color-laranja: #f17a20;
+    --color-laranja-escuro: #9e4708;
+    --color-laranja-claro: #f7a868; /* laranja legível sobre o marrom */
+    --color-bege: #e0cbb2;
+    --color-marrom-claro: #b48e65;
+    --color-marrom: #5c4130;
+    --color-cinza: #51504f;
+    --color-preto: #212121;
+    --color-dourado: #c29659;
+    --color-terracota: #8b4a32;
+    --color-branco: #fafaf7;
+    --color-offwhite: #eee7dc;
+    --color-areia: #c7bdaf;
+}
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+        -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+        @apply bg-branco font-sans text-cinza antialiased;
+    }
+
+    h1, h2, h3, h4 {
+        @apply font-serif text-marrom;
+        font-weight: 600;
+        line-height: 1.1;
+    }
+
+    ::selection {
+        @apply bg-bege text-preto;
+    }
+
+    :focus-visible {
+        @apply outline-2 outline-offset-2 outline-laranja-escuro;
+    }
+
+    [x-cloak] {
+        display: none !important;
+    }
+}
+
+@utility container-site {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+}
+
+@utility section {
+    @apply py-16 sm:py-24;
+}
+
+@utility eyebrow {
+    @apply text-xs font-semibold tracking-[0.18em] text-laranja-escuro uppercase;
+}
+
+@utility heading-xl {
+    @apply text-4xl sm:text-5xl lg:text-6xl;
+}
+
+@utility heading-lg {
+    @apply text-3xl sm:text-4xl lg:text-5xl;
+}
+
+@utility lead {
+    @apply text-lg leading-relaxed text-cinza;
+}
+
+@utility btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-60;
+}
+
+/* Texto preto sobre laranja: contraste 7:1 (branco sobre laranja não passa no AA) */
+@utility btn-primary {
+    @apply btn bg-laranja text-preto hover:bg-[#f58b3a] focus-visible:outline-laranja-escuro;
+}
+
+@utility btn-dark {
+    @apply btn bg-marrom text-branco hover:bg-preto focus-visible:outline-marrom;
+}
+
+@utility btn-outline {
+    @apply btn border border-marrom/30 text-marrom hover:border-marrom hover:bg-marrom/5;
+}
+
+@utility btn-whatsapp {
+    @apply btn bg-[#177a41] text-white hover:bg-[#11632f];
+}
+
+@utility card {
+    @apply rounded-2xl border border-areia/60 shadow-[0_1px_2px_rgba(92,65,48,0.06)] transition;
+}
+
+@utility card-link {
+    @apply card hover:-translate-y-0.5 hover:border-marrom-claro hover:shadow-[0_12px_32px_-12px_rgba(92,65,48,0.25)];
+}
+
+@utility field-label {
+    @apply mb-1.5 block text-sm font-medium text-marrom;
+}
+
+@utility field {
+    @apply block w-full rounded-xl border border-areia bg-white px-4 py-3 text-base text-preto placeholder:text-cinza/60 focus:border-marrom-claro focus:ring-2 focus:ring-bege focus:outline-none;
+}
+
+@utility field-error {
+    @apply mt-1 text-sm text-terracota;
+}
+
+@utility prose-instituto {
+    @apply prose prose-lg max-w-none prose-headings:font-serif prose-headings:font-semibold prose-headings:text-marrom prose-a:text-laranja-escuro prose-strong:text-marrom prose-li:marker:text-marrom-claro;
+}
