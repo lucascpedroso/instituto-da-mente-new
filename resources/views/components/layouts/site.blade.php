@@ -29,7 +29,9 @@
     <title>{{ $fullTitle }}</title>
     <meta name="description" content="{{ $description }}">
     <link rel="canonical" href="{{ $canonical }}">
-    @if ($noindex)
+    @if (config('instituto.static_preview'))
+        <meta name="robots" content="noindex, nofollow">
+    @elseif ($noindex)
         <meta name="robots" content="noindex, follow">
     @endif
 
@@ -59,6 +61,12 @@
 </head>
 <body class="flex min-h-screen flex-col">
     <a href="#conteudo" class="sr-only z-50 rounded bg-marrom px-4 py-2 text-branco focus:not-sr-only focus:fixed focus:top-3 focus:left-3">Pular para o conteúdo</a>
+
+    @if (config('instituto.static_preview'))
+        <div class="bg-preto px-4 py-2 text-center text-xs text-branco">
+            <strong>Pré-visualização</strong> — os formulários estão desativados nesta versão; use o WhatsApp.
+        </div>
+    @endif
 
     <x-site.header :therapies="$navTherapies" :courses="$navCourses" />
 

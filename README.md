@@ -21,3 +21,10 @@ php artisan migrate --seed          # admin local: admin@example.com / password
 composer run dev                    # servidor + Vite
 php artisan test
 ```
+
+## Pré-visualização no GitHub Pages
+
+A cada push na `main`, o workflow `.github/workflows/pages-preview.yml` publica uma **versão estática** do site em
+`https://lucascpedroso.github.io/instituto-da-mente-new/` para o cliente revisar layout e textos.
+Nela os formulários são trocados por botões de WhatsApp, não há `/admin` e as páginas têm `noindex`.
+Requer **Settings › Pages › Source: GitHub Actions**. O site oficial continua na Hostinger (`DEPLOY-HOSTINGER.md`).

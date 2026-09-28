@@ -36,3 +36,6 @@ Thumbs.db
 
 # Socket de MySQL local de testes
 /storage/*.sock
+
+# Pré-visualização estática (gerada pelo app:export-static)
+/dist

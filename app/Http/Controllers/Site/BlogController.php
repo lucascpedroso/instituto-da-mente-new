@@ -45,7 +45,7 @@ class BlogController extends Controller
                 ->where('title', 'like', "%{$search}%")
                 ->orWhere('excerpt', 'like', "%{$search}%")
                 ->orWhere('body', 'like', "%{$search}%")))
-            ->paginate(9)
+            ->paginate(config('instituto.static_preview') ? 1000 : 9)
             ->withQueryString();
 
         return view('site.blog.index', [

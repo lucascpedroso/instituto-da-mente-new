@@ -18,6 +18,9 @@
         default => 'Enviar mensagem',
     };
 @endphp
+@if (config('instituto.static_preview'))
+    <x-site.preview-form-notice :id="$id" />
+@else
 <form method="POST" action="{{ route('leads.store') }}" id="{{ $id }}" novalidate
       x-data="{ type: @js($selectedType), sending: false }" @submit="sending = true"
       class="space-y-5">
@@ -143,3 +146,4 @@
         <span x-show="sending" x-cloak>Enviando…</span>
     </button>
 </form>
+@endif

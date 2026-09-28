@@ -28,7 +28,9 @@
                 <p class="lead mt-4">Foi paciente ou aluno do Instituto da Mente? Conte como foi. Todo depoimento passa por aprovação antes de ser publicado, e você pode usar apenas o primeiro nome ou as iniciais.</p>
             </div>
             <div class="card bg-white p-6 sm:p-8">
-                @if (session('testimonial_sent'))
+                @if (config('instituto.static_preview'))
+                    <x-site.preview-form-notice id="depoimento-form" message="Olá! Gostaria de enviar um depoimento sobre o Instituto da Mente." />
+                @elseif (session('testimonial_sent'))
                     <div class="flex items-start gap-3 rounded-xl bg-[#177a41]/10 p-5 text-marrom" role="status">
                         <x-site.icon name="check" class="size-6 shrink-0 text-[#177a41]" />
                         <p><strong>Obrigado pelo seu depoimento!</strong> Ele será revisado pela nossa equipe antes de ser publicado.</p>

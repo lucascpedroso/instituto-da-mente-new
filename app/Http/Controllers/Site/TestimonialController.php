@@ -12,7 +12,7 @@ class TestimonialController extends Controller
     public function index()
     {
         return view('site.testimonials', [
-            'testimonials' => Testimonial::approved()->paginate(12),
+            'testimonials' => Testimonial::approved()->paginate(config('instituto.static_preview') ? 1000 : 12),
         ]);
     }
 

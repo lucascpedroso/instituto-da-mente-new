@@ -16,11 +16,13 @@
                         <li><a href="{{ route('blog.category', $item) }}" class="{{ $category?->is($item) ? 'bg-marrom text-branco' : 'border border-areia bg-white text-marrom hover:border-marrom' }} inline-block rounded-full px-4 py-2">{{ $item->name }}</a></li>
                     @endforeach
                 </ul>
+                @unless (config('instituto.static_preview'))
                 <form method="GET" action="{{ $category ? route('blog.category', $category) : route('blog.index') }}" role="search" class="relative w-full md:w-72">
                     <label for="busca" class="sr-only">Buscar no blog</label>
                     <input id="busca" type="search" name="busca" value="{{ $search }}" placeholder="Buscar no blog" class="field rounded-full py-2.5 pr-11">
                     <button type="submit" class="absolute top-1/2 right-3 -translate-y-1/2 text-marrom" aria-label="Buscar"><x-site.icon name="search" /></button>
                 </form>
+                @endunless
             </div>
 
             @if ($posts->isEmpty())
