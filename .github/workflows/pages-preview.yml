@@ -41,6 +41,10 @@ jobs:
           composer install --no-interaction --no-progress --prefer-dist
           npm ci --no-audit --no-fund
 
+      # Build local (os testes renderizam as páginas com @vite); o do Pages é feito depois dos testes
+      - name: Build dos assets
+        run: npm run build
+
       - name: Banco temporário com o conteúdo inicial
         run: |
           cp .env.example .env
@@ -54,7 +58,6 @@ jobs:
       # Frontend em navegador real (Chrome e Safari mobile, Chrome desktop) contra o site local
       - name: Testes de frontend (Playwright)
         run: |
-          npm run build
           npx playwright install --with-deps chromium webkit
           npm run test:e2e
 

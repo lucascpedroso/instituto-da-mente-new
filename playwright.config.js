@@ -35,7 +35,7 @@ export default defineConfig({
     webServer: external
         ? undefined
         : {
-              command: `rm -f "${db}" && touch "${db}" && php artisan migrate:fresh --seed --force --no-interaction && cd public && php -S 127.0.0.1:${PORT} ../vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php`,
+              command: `rm -f "${db}" && touch "${db}" && php artisan migrate:fresh --seed --force --no-interaction && php artisan db:seed --class=E2eSeeder --force --no-interaction &&cd public && php -S 127.0.0.1:${PORT} ../vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php`,
               url: `${baseURL}up`,
               reuseExistingServer: !process.env.CI,
               timeout: 120_000,

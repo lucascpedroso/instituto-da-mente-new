@@ -3,6 +3,7 @@
 use App\Models\Book;
 use App\Models\Course;
 use App\Models\Post;
+use App\Models\Professional;
 use App\Models\Therapy;
 use Database\Seeders\ContentSeeder;
 
@@ -86,5 +87,27 @@ it('renders the mobile menu outside the sticky header', function () {
 
     expect($menu)->not->toBeFalse()
         ->and(strrpos(substr($html, 0, $menu), '<template x-teleport="body">'))->not->toBeFalse()
-        ->and($html)->toContain('x-trap.inert.noscroll="open"');
+        ->and($html)->toContain('x-modal="open"');
+});
+
+it('lists professionals in a carousel with a profile lightbox for each one', function () {
+    Professional::create(['name' => 'Ana Ribeiro', 'profession' => 'Psicóloga', 'short_bio' => 'Atende crianças.', 'bio' => '<p>Bio completa da Ana.</p>', 'whatsapp' => '5519988887777']);
+    Professional::create(['name' => 'Oculto Silva', 'profession' => 'Psicólogo', 'is_active' => false]);
+
+    $this->get('/profissionais')->assertOk()
+        ->assertSee('aria-label="Profissionais do Instituto"', false)
+        ->assertSee('data-professional="ricardo-mello"', false)
+        ->assertSee('data-profile="ana-ribeiro"', false)
+        ->assertSee('Bio completa da Ana.', false)
+        ->assertSee('Agendar com Ana')
+        ->assertSee('https://wa.me/5519988887777', false)
+        ->assertSee('/profissionais/ana-ribeiro#agendar', false)
+        ->assertDontSee('Oculto Silva');
+});
+
+it('shows no watermark logo in the call-to-action band', function () {
+    $html = $this->get('/')->getContent();
+    $cta = substr($html, strpos($html, 'Dê o primeiro passo') - 400, 400);
+
+    expect($cta)->not->toContain('logo-branco.png');
 });

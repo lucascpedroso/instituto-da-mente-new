@@ -5,8 +5,7 @@
 ])
 <section class="section pt-0">
     <div class="container-site">
-        <div class="relative overflow-hidden rounded-3xl bg-marrom px-6 py-12 text-center sm:px-12 sm:py-16">
-            <img src="{{ asset('images/logo-branco.png') }}" alt="" aria-hidden="true" class="pointer-events-none absolute -top-6 -left-10 w-56 opacity-[0.06]" loading="lazy">
+        <div class="rounded-3xl bg-marrom px-6 py-12 text-center sm:px-12 sm:py-16">
             <h2 class="heading-lg text-branco">{{ $title }}</h2>
             <p class="mx-auto mt-4 max-w-xl text-bege/90">{{ $text }}</p>
             <div class="mt-8 flex flex-col justify-center gap-3 sm:flex-row">

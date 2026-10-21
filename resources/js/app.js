@@ -1,14 +1,16 @@
 import Alpine from 'alpinejs';
 import collapse from '@alpinejs/collapse';
-import focus from '@alpinejs/focus';
 import { consent } from './consent';
+import { modal } from './modal';
+import { professionals } from './professionals';
 import { track } from './tracking';
 
 window.track = track;
 
 Alpine.plugin(collapse);
-Alpine.plugin(focus);
+Alpine.plugin(modal);
 Alpine.data('consent', consent);
+Alpine.data('professionals', professionals);
 
 // Máscara de telefone brasileiro: (19) 99999-9999 / (19) 3333-3333
 Alpine.data('phoneMask', () => ({

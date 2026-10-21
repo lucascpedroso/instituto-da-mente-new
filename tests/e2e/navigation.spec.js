@@ -53,8 +53,8 @@ test.describe('menu mobile', () => {
 
     test('bloqueia a rolagem e o conteúdo atrás enquanto está aberto', async ({ page }) => {
         const pageScrollLocked = () => page.evaluate(() => getComputedStyle(document.documentElement).overflow === 'hidden');
-        // leitores de tela só "enxergam" o menu enquanto ele está aberto
-        const behindIsInert = () => page.evaluate(() => ['body > header', 'main', 'body > footer'].every((s) => document.querySelector(s).getAttribute('aria-hidden') === 'true'));
+        // o resto da página fica inerte (sem foco/clique, invisível para leitores de tela)
+        const behindIsInert = () => page.evaluate(() => ['body > header', 'main', 'body > footer'].every((s) => document.querySelector(s).closest('[inert]') !== null));
 
         await openMenu(page);
         expect(await pageScrollLocked()).toBe(true);
@@ -64,6 +64,17 @@ test.describe('menu mobile', () => {
         await expect(menu(page)).toBeHidden();
         await expect.poll(pageScrollLocked).toBe(false);
         await expect.poll(behindIsInert).toBe(false);
+    });
+
+    test('abrir e fechar muito rápido não deixa a página travada', async ({ page }) => {
+        for (let i = 0; i < 5; i++) {
+            await page.getByRole('button', { name: 'Abrir menu' }).dispatchEvent('click');
+            await page.keyboard.press('Escape');
+        }
+        await expect(menu(page)).toBeHidden();
+        expect(await page.evaluate(() => document.querySelectorAll('[inert]').length)).toBe(0);
+        expect(await page.evaluate(() => getComputedStyle(document.documentElement).overflow)).not.toBe('hidden');
+        await expect(page.getByRole('button', { name: 'Abrir menu' })).toBeEnabled(); // segue clicável/acessível
     });
 
     test('fecha sozinho se a tela passar para o tamanho desktop (ex.: girar o tablet)', async ({ page }) => {

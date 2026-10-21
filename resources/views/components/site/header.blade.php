@@ -58,10 +58,10 @@
     {{--
         Menu mobile, levado para o fim do <body>: dentro do <header>, o backdrop-blur faz do cabeçalho
         o "containing block" do position: fixed (o menu ficava cortado na altura do cabeçalho) e o z-40
-        dele deixava o aviso de cookies por cima. x-trap prende o foco no menu e trava a rolagem da página.
+        dele deixava o aviso de cookies por cima. x-modal (resources/js/modal.js) prende o foco e trava a rolagem.
     --}}
     <template x-teleport="body">
-        <div x-cloak x-show="open" x-trap.inert.noscroll="open" id="menu-mobile" class="fixed inset-0 z-[60] lg:hidden" role="dialog" aria-modal="true" aria-label="Menu">
+        <div x-cloak x-show="open" x-modal="open" id="menu-mobile" class="fixed inset-0 z-[60] lg:hidden" role="dialog" aria-modal="true" aria-label="Menu">
             <div x-show="open" x-transition.opacity class="absolute inset-0 bg-preto/40" @click="open = false"></div>
             <nav x-show="open" x-transition:enter="transition duration-200" x-transition:enter-start="translate-x-full" x-transition:leave="transition duration-150" x-transition:leave-end="translate-x-full"
                  @click="$event.target.closest('a') && (open = false)"
