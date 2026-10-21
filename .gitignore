@@ -39,3 +39,7 @@ Thumbs.db
 
 # Pré-visualização estática (gerada pelo app:export-static)
 /dist
+
+# Testes de frontend (Playwright)
+/test-results
+/playwright-report

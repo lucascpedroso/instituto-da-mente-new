@@ -22,8 +22,8 @@
     <x-site.preview-form-notice :id="$id" />
 @else
 <form method="POST" action="{{ route('leads.store') }}" id="{{ $id }}" novalidate
-      x-data="{ type: @js($selectedType), sending: false }" @submit="sending = true"
-      class="space-y-5">
+      x-data="{ type: @js($selectedType), sending: false }" @submit="sending = true" @pageshow.window="sending = false"
+      class="scroll-mt-28 space-y-5">
     @csrf
     <x-honeypot />
     <input type="hidden" name="_anchor" value="{{ $id }}">

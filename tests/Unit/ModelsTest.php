@@ -23,6 +23,14 @@ it('sets the publication date when a post is published', function () {
     expect($post->published_at)->not->toBeNull()->and($post->readingTime())->toBe(1);
 });
 
+it('counts accented words once when estimating reading time', function () {
+    // 400 palavras com acento: str_word_count() contaria cerca de 800 (4 min em vez de 2)
+    $body = '<p>'.str_repeat('Psicanálise é construção. ', 133).'</p><p>Atenção</p>';
+
+    expect((new Post(['body' => $body]))->readingTime())->toBe(2)
+        ->and((new Post(['body' => '<p>fim</p><p>início</p>']))->readingTime())->toBe(1);
+});
+
 it('falls back to default settings and saves changes', function () {
     expect(Setting::get('whatsapp'))->toBe('5519991607338');
 

@@ -27,16 +27,16 @@
                 <h2 class="heading-lg">Deixe seu depoimento</h2>
                 <p class="lead mt-4">Foi paciente ou aluno do Instituto da Mente? Conte como foi. Todo depoimento passa por aprovação antes de ser publicado, e você pode usar apenas o primeiro nome ou as iniciais.</p>
             </div>
-            <div class="card bg-white p-6 sm:p-8">
+            <div id="enviar-depoimento" class="card scroll-mt-28 bg-white p-6 sm:p-8">
                 @if (config('instituto.static_preview'))
-                    <x-site.preview-form-notice id="depoimento-form" message="Olá! Gostaria de enviar um depoimento sobre o Instituto da Mente." />
+                    <x-site.preview-form-notice id="depoimento-aviso" message="Olá! Gostaria de enviar um depoimento sobre o Instituto da Mente." />
                 @elseif (session('testimonial_sent'))
                     <div class="flex items-start gap-3 rounded-xl bg-[#177a41]/10 p-5 text-marrom" role="status">
                         <x-site.icon name="check" class="size-6 shrink-0 text-[#177a41]" />
                         <p><strong>Obrigado pelo seu depoimento!</strong> Ele será revisado pela nossa equipe antes de ser publicado.</p>
                     </div>
                 @else
-                    <form method="POST" action="{{ route('testimonials.store') }}#deixe-seu-depoimento" class="space-y-5" x-data="{ sending: false }" @submit="sending = true">
+                    <form method="POST" action="{{ route('testimonials.store') }}" class="space-y-5" x-data="{ sending: false }" @submit="sending = true" @pageshow.window="sending = false">
                         @csrf
                         <x-honeypot />
                         <div class="grid gap-5 sm:grid-cols-2">

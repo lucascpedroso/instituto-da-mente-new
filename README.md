@@ -19,8 +19,14 @@ composer install && npm install
 cp .env.example .env && php artisan key:generate
 php artisan migrate --seed          # admin local: admin@example.com / password
 composer run dev                    # servidor + Vite
-php artisan test
+php artisan test                    # testes do backend (Pest)
+npm run build && npm run test:e2e   # testes de frontend (Playwright: Chrome/Safari mobile e Chrome desktop)
 ```
+
+Na primeira vez, instale os navegadores com `npx playwright install chromium webkit`. Os testes de frontend sobem o
+site com um banco SQLite descartável (`database/e2e.sqlite`). Para rodá-los contra um site já publicado:
+`E2E_BASE_URL=https://lucascpedroso.github.io/instituto-da-mente-new/ npm run test:e2e` (os testes de formulário são
+pulados na pré-visualização estática).
 
 ## Pré-visualização no GitHub Pages
 

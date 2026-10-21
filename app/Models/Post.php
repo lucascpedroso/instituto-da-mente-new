@@ -66,7 +66,10 @@ class Post extends Model
 
     public function readingTime(): int
     {
-        return max(1, (int) ceil(str_word_count(strip_tags((string) $this->body)) / 200));
+        // str_word_count() não entende acentos ("psicanálise" contaria como duas palavras)
+        $text = strip_tags(str_replace('<', ' <', (string) $this->body));
+
+        return max(1, (int) ceil(preg_match_all('/[\p{L}\p{N}]+(?:[\'’-][\p{L}\p{N}]+)*/u', $text) / 200));
     }
 
     public function summary(): string

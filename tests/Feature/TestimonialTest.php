@@ -29,3 +29,19 @@ it('requires consent to publish a testimonial', function () {
 
     expect(Testimonial::count())->toBe(0);
 });
+
+it('returns to the form on the page, with errors or the confirmation', function () {
+    $valid = ['name' => 'A. S.', 'kind' => 'paciente', 'content' => 'Fui muito bem acolhida desde a primeira sessão.', 'consent' => '1'];
+
+    $this->from('/depoimentos')
+        ->post('/depoimentos', ['content' => 'Curto'] + $valid)
+        ->assertRedirect('/depoimentos#enviar-depoimento')
+        ->assertSessionHasErrors('content')
+        ->assertSessionHasInput('name', 'A. S.');
+
+    $this->from('/depoimentos?page=2')
+        ->post('/depoimentos', $valid)
+        ->assertRedirect('/depoimentos?page=2#enviar-depoimento');
+
+    $this->get('/depoimentos')->assertSee('id="enviar-depoimento"', false)->assertSee('Obrigado pelo seu depoimento!');
+});

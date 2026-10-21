@@ -15,9 +15,14 @@ class LeadRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
-        $this->merge([
-            'phone' => preg_replace('/\D/', '', (string) $this->input('phone')),
-        ]);
+        $phone = preg_replace('/\D/', '', (string) $this->input('phone'));
+
+        // Remove o código do país quando o número vem como +55 19 99999-9999
+        if (strlen($phone) > 11 && str_starts_with($phone, '55')) {
+            $phone = substr($phone, 2);
+        }
+
+        $this->merge(['phone' => $phone]);
     }
 
     public function rules(): array

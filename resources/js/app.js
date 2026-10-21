@@ -1,17 +1,22 @@
 import Alpine from 'alpinejs';
 import collapse from '@alpinejs/collapse';
+import focus from '@alpinejs/focus';
 import { consent } from './consent';
 import { track } from './tracking';
 
 window.track = track;
 
 Alpine.plugin(collapse);
+Alpine.plugin(focus);
 Alpine.data('consent', consent);
 
 // Máscara de telefone brasileiro: (19) 99999-9999 / (19) 3333-3333
 Alpine.data('phoneMask', () => ({
     format(event) {
-        const d = event.target.value.replace(/\D/g, '').slice(0, 11);
+        let d = event.target.value.replace(/\D/g, '');
+        // número colado com o código do país, como o WhatsApp copia: +55 19 99999-9999
+        if (d.length > 11 && d.startsWith('55')) d = d.slice(2);
+        d = d.slice(0, 11);
         let v = d;
         if (d.length > 10) v = `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
         else if (d.length > 6) v = `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6)}`;

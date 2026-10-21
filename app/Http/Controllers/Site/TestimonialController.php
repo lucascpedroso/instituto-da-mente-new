@@ -18,7 +18,10 @@ class TestimonialController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate([
+        // O formulário fica no fim da página: volta direto para ele, com os erros ou a confirmação.
+        $back = strtok(url()->previous(), '#').'#enviar-depoimento';
+
+        $validator = validator($request->all(), [
             'name' => ['required', 'string', 'min:2', 'max:80'],
             'kind' => ['required', Rule::in(array_keys(Testimonial::KINDS))],
             'content' => ['required', 'string', 'min:20', 'max:1500'],
@@ -32,6 +35,12 @@ class TestimonialController extends Controller
             'content' => 'depoimento',
         ]);
 
+        if ($validator->fails()) {
+            return redirect()->to($back)->withErrors($validator)->withInput();
+        }
+
+        $data = $validator->validated();
+
         // Todo depoimento entra como pendente e só vai ao ar após aprovação no painel.
         Testimonial::create([
             'name' => $data['name'],
@@ -41,6 +50,6 @@ class TestimonialController extends Controller
             'consent_at' => now(),
         ]);
 
-        return back()->with('testimonial_sent', true);
+        return redirect()->to($back)->with('testimonial_sent', true);
     }
 }

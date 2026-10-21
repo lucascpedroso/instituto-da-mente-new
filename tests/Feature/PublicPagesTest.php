@@ -78,3 +78,13 @@ it('lists published content in the sitemap', function () {
 it('blocks indexing outside production', function () {
     $this->get('/robots.txt')->assertOk()->assertSee('Disallow: /');
 });
+
+it('renders the mobile menu outside the sticky header', function () {
+    // Dentro do <header> (backdrop-blur + z-40), o menu fixo ficava cortado na altura do cabeçalho.
+    $html = $this->get('/')->assertOk()->getContent();
+    $menu = strpos($html, 'id="menu-mobile"');
+
+    expect($menu)->not->toBeFalse()
+        ->and(strrpos(substr($html, 0, $menu), '<template x-teleport="body">'))->not->toBeFalse()
+        ->and($html)->toContain('x-trap.inert.noscroll="open"');
+});

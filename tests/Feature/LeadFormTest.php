@@ -65,6 +65,18 @@ it('requires name, phone and LGPD consent', function () {
     expect(Lead::count())->toBe(0);
 });
 
+it('accepts phone numbers pasted with the +55 country code', function (string $pasted, string $stored) {
+    Mail::fake();
+
+    $this->post('/contato', validLead(['phone' => $pasted]))->assertRedirect(route('leads.thanks'));
+
+    expect(Lead::sole()->phone)->toBe($stored);
+})->with([
+    'celular' => ['+55 19 99123-4567', '19991234567'],
+    'fixo' => ['+55 (19) 3234-5678', '1932345678'],
+    'DDD 55 sem código do país' => ['(55) 99123-4567', '55991234567'],
+]);
+
 it('rejects invalid phone numbers and lead types', function () {
     $this->post('/contato', validLead(['phone' => '1234']))->assertSessionHasErrors('phone');
     $this->post('/contato', validLead(['type' => 'hack']))->assertSessionHasErrors('type');
